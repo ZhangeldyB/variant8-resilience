@@ -1,1 +1,1 @@
-results/on.csv: requests=2400 failed=0 POFOD=0.0000 episodes=0 ROCOF=0.0/h AVAIL=1.0000 p50/p95/p99=10/13/1006 ms
+results/on.csv: requests=2400 failed=34 POFOD=0.0142 episodes=1 ROCOF=30.0/h AVAIL=1.0000 p50/p95/p99=9/1010/1502 ms

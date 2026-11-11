@@ -1,5 +1,5 @@
 dep-1  | dep-a listening on :8081
 dep-1  | dep-a: fault = {}
-dep-1  | dep-a: fault = {'delay_ms': 4000}
-dep-1  | dep-a: fault = {}
 core-1  | core: PATTERN=on BULKHEAD_SIZE=4 TIMEOUT_S=1.0 DEP_URL=http://dep:8081/work
+dep-1   | dep-a: fault = {'delay_ms': 4000}
+dep-1   | dep-a: fault = {}
