@@ -1,0 +1,4 @@
+# Скрипты и код всегда с LF, иначе bash в Git Bash и в контейнере падает на \r
+* text=auto eol=lf
+*.drawio text eol=lf
+*.png binary

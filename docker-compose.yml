@@ -1,0 +1,47 @@
+# Локальный стенд варианта 8 (аналог стенда Killercoda).
+# Запуск — через ./experiment.sh off|on, а не напрямую.
+name: variant8
+
+x-app: &app
+  build: .
+  image: variant8-stand:latest
+
+services:
+  dep:
+    <<: *app
+    command: ["python", "dep.py"]
+    environment:
+      PORT: "8081"
+
+  core:
+    <<: *app
+    command: ["python", "core.py"]
+    depends_on: [dep]
+    ports: ["8080:8080"]
+    environment:
+      PORT: "8080"
+      PATTERN: "${PATTERN:-off}"
+      DEP_URL: "http://dep:8081/work"
+      BULKHEAD_SIZE: "${BULKHEAD_SIZE:-4}"
+      TIMEOUT_S: "${TIMEOUT_S:-1.0}"
+
+  loadgen:
+    <<: *app
+    profiles: ["run"]
+    command: ["python", "loadgen.py", "results/${MODE:-off}.csv"]
+    depends_on: [core]
+    volumes:
+      - ./results:/app/results
+    environment:
+      CORE_URL: "http://core:8080/"
+      DEP_CONTROL: "http://dep:8081"
+      FAULT: "${FAULT}"
+      DURATION_S: "${DURATION_S:-120}"
+      FAULT_START: "30"
+      FAULT_END: "60"
+
+  tools:
+    <<: *app
+    profiles: ["run"]
+    volumes:
+      - ./results:/app/results
